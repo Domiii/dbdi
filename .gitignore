@@ -2,7 +2,6 @@
 # Misc
 #---------------------------------
 **/node_modules/
-dist/
 tmp/
 .tmp/
 

@@ -18,7 +18,6 @@ import {
   getDataIn,
   //setDataIn
 } from '../PathUtil';
-import PromiseModel from '../../core/scaffolding/PromiseModel';
 
 
 /**

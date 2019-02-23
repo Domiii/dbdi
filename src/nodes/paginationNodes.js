@@ -18,7 +18,7 @@
 import sortBy from 'lodash/sortBy';
 
 import { getOptionalArguments } from '../dataAccessUtil';
-import { EmptyObject } from '../../util';
+import { EmptyObject } from '../util';
 
 export default (nodeName, sortedIdNodeName) => {
   function queryParams(args) {

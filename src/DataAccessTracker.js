@@ -1,12 +1,12 @@
-import { writeParameterConfig } from 'src/dbdi/DataWriteDescriptor';
+import { writeParameterConfig } from './DataWriteDescriptor';
 
 import isObject from 'lodash/isObject';
 import isPlainObject from 'lodash/isPlainObject';
 import isFunction from 'lodash/isFunction';
 
-import autoBind from 'src/util/auto-bind';
+import autoBind from './util/auto-bind';
 
-import { EmptyObject, EmptyArray } from 'src/util';
+import { EmptyObject, EmptyArray } from './util';
 
 import { sharedArgumentProxyProperties } from './ProxyUtil';
 

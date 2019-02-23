@@ -1,9 +1,7 @@
 import buildSourceTree from '../DataSourceTree';
 
 import findKey from 'lodash/findKey';
-import isEqual from 'lodash/isEqual';
 
-import React, { Component } from 'react';
 import MemoryDataProvider from '../dataProviders/MemoryDataProvider';
 import pluralize from 'pluralize';
 

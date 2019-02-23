@@ -25,11 +25,11 @@ import pluralize from 'pluralize';
 
 import autoBind from 'src/util/auto-bind';
 
-import { EmptyObject, EmptyArray } from '../../util';
+import { EmptyObject, EmptyArray } from '../util';
 
-import { NOT_LOADED } from 'src/dbdi';
-import { getOptionalArgument } from 'src/dbdi/dataAccessUtil';
-import { getFirstVariableInPathTemplate } from 'src/dbdi/PathUtil';
+import { NOT_LOADED } from '..';
+//import { getOptionalArgument } from 'src/dbdi/dataAccessUtil';
+import { getFirstVariableInPathTemplate } from '../PathUtil';
 
 /**
  * ####################################################################################
