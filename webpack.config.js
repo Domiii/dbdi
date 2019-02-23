@@ -18,6 +18,15 @@ const ENV_PRODUCTION = NODE_ENV === 'production';
 const ENV_TEST = NODE_ENV === 'test';
 
 
+let outputPath;
+
+if (ENV_TEST) {
+  outputPath = 'dist_test';
+}
+else {
+  outputPath = 'dist';
+}
+
 //=========================================================
 //  Rules
 //---------------------------------------------------------
@@ -26,7 +35,8 @@ const rules = [
     test: /\.js[x]?$/,
     exclude: [
       /node_modules/,
-      /external/
+      /external/,
+      /.*\/__tests__\/.*/
     ],
     loader: 'babel-loader'
   },
@@ -75,7 +85,7 @@ const config = {
             // vendor chunk
             vendor: {
               // name of the chunk
-              name: 'vendor',
+              name: '_vendor',
               // async + async chunks
               chunks: 'all',
               // import file path containing node_modules
@@ -85,7 +95,7 @@ const config = {
             },
             // common chunk
             common: {
-              name: 'common',
+              name: '_common',
               minChunks: 2,
               chunks: 'all',
               priority: 10,
@@ -99,7 +109,7 @@ const config = {
 
   plugins: [
     // clean before build
-    new CleanWebpackPlugin(['dist/**.*']),
+    new CleanWebpackPlugin([`${outputPath}/**.*`]),
 
     // define global constants
     new webpack.DefinePlugin({
@@ -123,8 +133,8 @@ const config = {
   output: {
     library: 'dbdi',
     libraryTarget: 'umd',
-    path: path.resolve('./dist'),
-    publicPath: '/dist',
+    path: path.resolve(`./${outputPath}`),
+    publicPath: `/${outputPath}`,
     filename: '[name].js'
   },
 
@@ -143,15 +153,15 @@ if (ENV_DEVELOPMENT || ENV_PRODUCTION) {
 
 }
 
+// config.entry.main.unshift(
+//   '@babel/polyfill'
+// );
+
 //=====================================
 //  DEVELOPMENT
 //-------------------------------------
 if (ENV_DEVELOPMENT) {
   config.devtool = 'source-map';
-
-  config.entry.main.unshift(
-    'babel-polyfill'
-  );
 
   //config.plugins.push(new BundleAnalyzerPlugin());
 }
@@ -179,6 +189,9 @@ if (ENV_TEST) {
   //config.context = path.join(__dirname, 'src');
 
   config.devtool = 'inline-source-map';
+
+  delete config.output.library;
+  delete config.output.libraryTarget;
 
   //config.entry.vendor = './src/vendor.js';
 
