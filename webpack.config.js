@@ -1,7 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+
 let glob = require("glob");
 const partialRight = require('lodash/partialRight');
 const zipObject = require('lodash/zipObject')
@@ -35,7 +38,7 @@ const rules = [
   {
     test: /\.js[x]?$/,
     exclude: [
-      ///node_modules/,
+      /node_modules/,
       /external/,
       /.*\/__tests__\/.*/
     ],
@@ -62,12 +65,16 @@ const config = {
     //index: globSync("src/{,dataProviders/,util/,plugins/}*.js"),
     index: 'src/index.js',
 
+    util: ['./dataAccessUtil'],
+
     // firebase
     //dbdiFirebase: globSync("src/firebase/*.js"),
     FirebaseDataProvider: 'src/firebase/FirebaseDataProvider.js',
 
+    'firebase-util': 'src/firebase/firebase-util.js',
+
     // react
-    dbdiReact: 'src/react/index.js'
+    react: 'src/react/index.js'
   },
 
   module: {
@@ -93,7 +100,6 @@ const config = {
     }
   },
 
-
   plugins: [
     // clean before build
     new CleanWebpackPlugin([`${outputPath}/**.*`]),
@@ -101,7 +107,15 @@ const config = {
     // define global constants
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
-    })
+    }),
+
+    // TODO: remove scripts and fix main in package.json before copying
+
+    // copy package.json to `dist`, so we can just reference that directory and have separate file imports work.
+    // see: https://stackoverflow.com/questions/51796591/allow-direct-import-of-files-within-npm-module-like-lodash
+    new CopyPlugin([
+      { from: '../package.json', to: 'package.json' }
+    ])
   ],
 
 
@@ -132,7 +146,6 @@ const config = {
 };
 
 // add each node as its own entry
-
 const nodeFiles = globSync('src/nodes/*.js').map(fpath => path.basename(fpath, path.extname(fpath)));
 Object.assign(config.entry, zipObject(
   nodeFiles,
@@ -185,8 +198,12 @@ if (ENV_TEST) {
 
   config.devtool = 'inline-source-map';
 
+  // don't build as library for testing
   delete config.output.library;
   delete config.output.libraryTarget;
+
+  // also: add the node_modules, so we can actually run this!
+  config.rules[0].exclude.splice(0, 1);
 
   //config.entry.vendor = './src/vendor.js';
 

@@ -1,5 +1,5 @@
 export { NOT_LOADED } from './dataProviders/DataProviderBase';
 
-import buildSourceTree from './DataSourceTree';
+export { default as buildSourceTree } from './DataSourceTree';
 
-export default buildSourceTree;
+export { default as MemoryDataProvider } from './dataProviders/MemoryDataProvider';

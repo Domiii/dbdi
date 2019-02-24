@@ -2,6 +2,8 @@ import mapValues from 'lodash/mapValues';
 import map from 'lodash/map';
 import isPlainObject from 'lodash/isPlainObject';
 
+export { NOT_LOADED } from './dataProviders/DataProviderBase';
+
 export function getOptionalArguments(args, ...namesOrConfig) {
   const argsConfig = namesOrConfig[0];
   if (isPlainObject(argsConfig)) {
