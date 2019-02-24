@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = self => {
+export default function (self) {
   for (const key of Object.getOwnPropertyNames(self.constructor.prototype)) {
     if (key !== 'constructor' &&
         key !== 'arguments' &&
