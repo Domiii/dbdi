@@ -1,6 +1,26 @@
 
 # DBDI - **D**ata**B**inding via **D**ependency **I**njection
 
+
+# How to use?
+
+Since I am only using this myself for now, I have set it up for ease of local development (meaning: no NPM registry entry yet).
+
+This is how you use it:
+
+1. `$ cd <some_folder>`
+1. `$ git clone https://github.com/Domiii/dbdi`
+1. `$ cd <your_project_folder>`
+1. `$ npm link <some_folder>/dbdi`
+
+Example:
+
+1. `$ cd ~/code`
+1. `$ git clone https://github.com/Domiii/dbdi`
+1. `$ cd ../my_awesome_project`
+1. `$ npm link ../dbdi`
+
+
 # Intro
 
 DBDI (short for DataBinding via Dependency Injection) allows to easily data-bind any `DataProvider` (e.g. a database, file-system, cache etc.) in with React components. I had this idea after I felt disappointed by other modules that are supposed to deliver React and Redux data-binding for firebase. (Don't get me wrong, I really liked [react-redux-firebase](https://github.com/prescottprue/react-redux-firebase) initially and it is a bit of an inspiration for this project. Its main author, Scott, has been working hard on the project. But due to the overwhelming demand for basic features, advanced features that would not just easily provide data but also ensures that it does the least amount of overhead to get that data (both in terms of performance and loc) were missing.)
@@ -9,8 +29,8 @@ Data-binding in DBDI is done via [ES6 proxies](https://ponyfoo.com/articles/es6-
 
 DBDI currently supports two kinds of `DataProviders`:
 
-1. [FirebaseDataProvider](https://github.com/Domiii/project-empire/blob/master/src/dbdi/firebase/FirebaseDataProvider.js) provides CRUD for a firebase backend.
-1. [MemoryDataProvider](https://github.com/Domiii/project-empire/blob/master/src/dbdi/dataProviders/MemoryDataProvider.js) stores data in a JS object. This kind of data will be gone when page is reloaded. It is mostly used as a cache for remote APIs, which can be called in the asynchronously treated `fetch` function in the tree definition.
+1. [FirebaseDataProvider](https://github.com/Domiii/dbdi/firebase/FirebaseDataProvider.js) provides CRUD for a firebase backend.
+1. [MemoryDataProvider](https://github.com/Domiii/dbdi/dataProviders/MemoryDataProvider.js) stores data in a JS object. This kind of data will be gone when page is reloaded. It is mostly used as a cache for remote APIs, which can be called in the asynchronously treated `fetch` function in the tree definition.
 
 WARNING: Since only I currently use this for my own application prototypes, there is not quite a lot of documentation or testing in it YET.
 
@@ -111,8 +131,8 @@ TODO: Many more detailed required.
 
 # Advanced Example
 
-1. DBDI also provides "fetch and cache", which, when used in `MemoryDataProvider` nodes, can allow for data-binding any remote API. The [YtResourceModel's `ytMyChannels`](https://github.com/Domiii/project-empire/blob/aac9dfbe6d22b2f9495af927e6107cacc88b1c80/src/core/multimedia/youtube/YtResourceModel.js#L32) data node gives an example of how to easily fetch YouTube data through the YouTube API which, thanks to DBDI, gets cached automatically and is available through the same data injection schema as any other data.
-1. The [DataRelationshipGraph test](https://github.com/Domiii/project-empire/blob/master/src/dbdi/__tests__/DataRelationshipGraph.test.js) shows some parts of how many-to-many relationships should work (close to feature-complete).
+1. DBDI also provides "fetch and cache", which, when used in `MemoryDataProvider` nodes, can allow for data-binding any remote API. In one of my projects, the [YtResourceModel's `ytMyChannels`](https://github.com/Domiii/project-empire/blob/aac9dfbe6d22b2f9495af927e6107cacc88b1c80/src/core/multimedia/youtube/YtResourceModel.js#L32) data node gives an example of how to easily fetch YouTube data through the YouTube API which, thanks to DBDI, gets cached automatically and is available through the same data injection schema as any other data.
+1. The [DataRelationshipGraph test](https://github.com/Domiii/dbdi/__tests__/DataRelationshipGraph.test.js) shows some parts of how many-to-many relationships should work (close to feature-complete).
 
 
 # Unsorted notes

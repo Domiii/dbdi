@@ -4,9 +4,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 let glob = require("glob");
 const partialRight = require('lodash/partialRight');
-
-// configure glob to always give us absolute paths (webpack does not like relative paths)
-globSync = partialRight(glob.sync, { absolute: true });
+const zipObject = require('lodash/zipObject')
 
 //=========================================================
 //  ENVIRONMENT VARS
@@ -27,6 +25,9 @@ else {
   outputPath = 'dist';
 }
 
+// configure glob to always give us absolute paths (webpack does not like relative paths)
+globSync = partialRight(glob.sync, { absolute: true });
+
 //=========================================================
 //  Rules
 //---------------------------------------------------------
@@ -34,7 +35,7 @@ const rules = [
   {
     test: /\.js[x]?$/,
     exclude: [
-      /node_modules/,
+      ///node_modules/,
       /external/,
       /.*\/__tests__\/.*/
     ],
@@ -58,18 +59,16 @@ const config = {
   // see: https://github.com/webpack/webpack/issues/370
   entry: {
     // dbdi main (including basic dataProviders)
-    main: globSync("src/{,dataProviders/,util/,plugins/}*.js"),
+    //index: globSync("src/{,dataProviders/,util/,plugins/}*.js"),
+    index: 'src/index.js',
 
     // firebase
-    firebase: globSync("src/firebase/*.js"),
-
-    // nodes
-    nodes: globSync("src/nodes/*.js"),
+    //dbdiFirebase: globSync("src/firebase/*.js"),
+    FirebaseDataProvider: 'src/firebase/FirebaseDataProvider.js',
 
     // react
-    react: globSync("src/react/*.js")
+    dbdiReact: 'src/react/index.js'
   },
-
 
   module: {
     rules
@@ -83,25 +82,13 @@ const config = {
         cacheGroups: {
             default: false,
             // vendor chunk
-            vendor: {
-              // name of the chunk
-              name: '_vendor',
-              // async + async chunks
-              chunks: 'all',
-              // import file path containing node_modules
-              test: /node_modules/,
-              // priority
-              priority: 20
-            },
-            // common chunk
-            common: {
-              name: '_common',
-              minChunks: 2,
-              chunks: 'all',
-              priority: 10,
-              reuseExistingChunk: true,
-              enforce: true
-            }
+            // see: https://github.com/webpack/webpack/issues/6647
+            // _vendor: {
+            //   test: /node_modules/, // you may add "vendor.js" here if you want to
+            //   name: "_vendor",
+            //   chunks: "initial",
+            //   enforce: false
+            // }
         }
     }
   },
@@ -143,6 +130,14 @@ const config = {
     entrypoints: true
   }
 };
+
+// add each node as its own entry
+
+const nodeFiles = globSync('src/nodes/*.js').map(fpath => path.basename(fpath, path.extname(fpath)));
+Object.assign(config.entry, zipObject(
+  nodeFiles,
+  nodeFiles.map(fname => `src/nodes/${fname}.js`)
+));
 
 
 
