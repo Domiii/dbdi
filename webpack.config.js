@@ -77,6 +77,21 @@ const config = {
     react: 'src/react/index.js'
   },
 
+  externals : {
+    react: 'react',
+    firebase: 'firebase',
+    'firebase/app': 'firebase/app',
+    'firebase/auth': 'firebase/auth',
+    'firebase/database': 'firebase/database',
+    'prop-types': 'prop-types',
+    'react-dom': 'react-dom',
+    lodash : {
+      commonjs: 'lodash',
+      amd: 'lodash',
+      root: '_' // global variable
+    }
+  },
+
   module: {
     rules
   },
@@ -109,13 +124,11 @@ const config = {
       'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
     }),
 
-    // TODO: remove scripts and fix main in package.json before copying
-
-    // copy package.json to `dist`, so we can just reference that directory and have separate file imports work.
-    // see: https://stackoverflow.com/questions/51796591/allow-direct-import-of-files-within-npm-module-like-lodash
-    new CopyPlugin([
-      { from: '../package.json', to: 'package.json' }
-    ])
+    // // copy package.json to `dist`, so we can just reference that directory and have separate file imports work.
+    // // see: https://stackoverflow.com/questions/51796591/allow-direct-import-of-files-within-npm-module-like-lodash
+    // new CopyPlugin([
+    //   { from: '../package.json', to: 'package.json' }
+    // ])
   ],
 
 

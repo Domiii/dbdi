@@ -346,7 +346,7 @@ export default class DataProviderBase {
 
     const val = getDataIn(this._cache, localPath, NOT_LOADED);
 
-    console.log('READ [', queryInput, ']', this._loadState[query.localPath], val);
+    //console.log('READ [', queryInput, ']', this._loadState[query.localPath], val);
 
     if (this.isDataFullyAvailable(query)) {
       if (val !== NOT_LOADED) {

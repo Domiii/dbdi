@@ -9,8 +9,9 @@
     "@babel/preset-react"
   ],
   "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
     "@babel/plugin-proposal-class-properties",
-    "transform-function-bind",
+    "@babel/plugin-proposal-function-bind",
     "@babel/plugin-syntax-export-default-from"
   ]
 }

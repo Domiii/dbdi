@@ -163,6 +163,7 @@ export default (propsOrPropCb) => _WrappedComponent => {
       //   this._injectedArguments
       // );
       // there is no good working heuristic to figure out if it's a function representing a component :(
+      //const isStatefulComponent = _WrappedComponent && _WrappedComponent.prototype instanceof Component;
       const isStatefulComponent = _WrappedComponent && _WrappedComponent.prototype instanceof Component;
       const isComponentFunction = this.isFunctionalComponent = isFunction(_WrappedComponent);
 
@@ -172,6 +173,7 @@ export default (propsOrPropCb) => _WrappedComponent => {
 
       // decorate the component
       let render;
+      
       if (isStatefulComponent) {
         // create new class for every instance of this component
         class __WrappedComponent extends _WrappedComponent { };
