@@ -28,7 +28,8 @@ import {
  */
 
 /**
- * The FirebaseDataProvider allows 
+ * The FirebaseDataProvider is an interface for the legacy Firebase Real-Time DataBase
+ * See: https://medium.freecodecamp.org/rtdb-to-firestore-fd8da8149877
  */
 export default class FirebaseDataProvider extends DataProviderBase {
   _database;
@@ -85,7 +86,7 @@ export default class FirebaseDataProvider extends DataProviderBase {
   }
 
   // ################################################
-  // Public properties + methods
+  // Override methods from DataProviderBase
   // ################################################
 
 
@@ -116,6 +117,11 @@ export default class FirebaseDataProvider extends DataProviderBase {
     const ref = this._getRefByQuery(query);
     ref.off('value', hook);
   }
+
+
+  // ################################################
+  // Data writing
+  // ################################################
 
   /**
    * The way the Firebase library (currently) works is that

@@ -484,6 +484,7 @@ export default class DataProviderBase {
     this.setLoadState(localPath, LoadState.NotLoaded);
     this.actions.set(remotePath, NOT_LOADED);
   }
+  
 
   // #################################################################################################
   // Any DataProvider can implement the following methods
